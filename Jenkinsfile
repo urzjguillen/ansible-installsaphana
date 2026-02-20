@@ -11,7 +11,7 @@ pipeline {
     stage('Acepte key ssh') {
       steps {
         sh 'chmod +x script/main.py'
-        sh 'python3 script/main.py'
+        sh 'python script/main.py'
       }
     }
 
