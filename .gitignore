@@ -1,0 +1,57 @@
+# --- Ansible ---
+*.retry
+*.log
+ansible.log
+.cache/
+.cache_ansible/
+facts.d/
+*.fact
+
+# Collections/Roles descargados (si usas ansible-galaxy install -p)
+collections/
+roles/*/
+!roles/common/
+!roles/openvpn/
+!roles/**/tasks/
+!roles/**/handlers/
+!roles/**/templates/
+!roles/**/files/
+!roles/**/defaults/
+!roles/**/vars/
+!roles/**/meta/
+# (Ajusta estas excepciones según tus roles reales)
+
+# --- Secrets / Keys ---
+*.key
+*.pem
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+*vault_pass*
+.vault_pass
+secrets/
+**/secrets.yml
+**/vault.yml
+**/*vault*.yml
+
+# --- Inventory sensible (opcional) ---
+# Si prefieres NO subir IPs reales:
+# inventories/**/hosts.ini
+# inventories/**/hosts.yml
+
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# --- Python (si usas scripts) ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# --- CI / Jenkins ---
+workspaces/
