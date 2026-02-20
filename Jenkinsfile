@@ -10,7 +10,7 @@ pipeline {
     }
     stage('Acepte key ssh') {
       steps {
-        sh 'python3 --version'
+        sh 'python3 script/main.py'
       }
     }
 
