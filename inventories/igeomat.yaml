@@ -10,5 +10,4 @@ suse:
           ansible_host: 10.1.215.2
   vars:
     ansible_user: root
-    ansible_password: { { 'root_passwd' } }
     ansible_python_interpreter: /usr/bin/python3.12
