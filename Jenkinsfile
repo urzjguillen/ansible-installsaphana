@@ -8,10 +8,14 @@ pipeline {
     stage('Checkout') {
       steps { checkout scm }
     }
+    stage('Acepte key ssh') {
+      steps {
+        sh 'python3 script/main.py'
+      }
+    }
 
     stage('Configuracion inicial suse') {
       steps {
-        sh 'echo $root_passwd'
         sh 'ansible-playbook -i inventories/igeomat.yaml playbooks/initconfig.yaml -e "ansible_password=${root_passwd}"'
       }
     }
