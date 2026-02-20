@@ -10,7 +10,6 @@ pipeline {
     }
     stage('Acepte key ssh') {
       steps {
-        sh'cat ~/.ssh/known_hosts'
         sh 'python3 script/main.py'
       }
     }
