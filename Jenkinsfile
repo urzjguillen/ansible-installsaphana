@@ -12,7 +12,6 @@ pipeline {
       steps {
         sh'mkdir -p ~/.ssh'
         sh 'python3 script/main.py'
-        sh'chmod 600 ~/.ssh/known_hosts'
       }
     }
 
