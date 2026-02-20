@@ -3,7 +3,7 @@ import subprocess
 try:
     with open("inventories/igeomat.yaml", "r") as f:
         lines = f.readlines()
-        subprocess.run(["mkdir", "-p ~/.ssh"])
+        subprocess.run(["mkdir", "~/.ssh"])
         for line in lines:
             line_strip = line.strip()
             if line_strip.startswith("ansible_host"):
@@ -14,6 +14,6 @@ try:
                     text=True,
                 )
             continue
-        subprocess.run(["chmod", "600 ~/.ssh/known_hosts]"])
+        subprocess.run(["chmod", "600", "~/.ssh/known_hosts]"])
 except:
     print("Arvhivo no existe")
