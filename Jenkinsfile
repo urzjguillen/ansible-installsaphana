@@ -11,6 +11,7 @@ pipeline {
 
     stage('Configuracion inicial suse') {
       steps {
+        sh 'echo $root_passwd'
         sh 'ansible-playbook -i inventories/igeomat.yaml playbooks/initconfig.yaml'
       }
     }
