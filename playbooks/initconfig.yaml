@@ -1,0 +1,66 @@
+- name: Hostname
+  hosts: suse
+  gather_facts: true
+  tasks:
+    - name: Nombre de la maquina
+      ansible.builtin.debug:
+        msg: '{{ansible_facts["hostname"]}}'
+    - name: Asignar el nombre correcto al servidor SuSe
+      ansible.builtin.hostname:
+        name: '{{inventory_hostname }}'
+        use: systemd
+    - name: Asegurar valor unico de DHCLIENT_SET_HOSTNAME
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/sysconfig/network/dhcp
+        regexp: '^DHCLIENT_SET_HOSTNAME='
+        line: 'DHCLIENT_SET_HOSTNAME="no"'
+        create: true
+        state: present
+        backrefs: false
+    - name: Nombre nuevo de la maquina
+      ansible.builtin.debug:
+        msg: '{{inventory_hostname }}'
+- name: Instalar dependencias requeridas en SUSE
+  hosts: suse
+  become: true
+  gather_facts: false
+
+  vars:
+    packages:
+      - libatomic1
+      - insserv
+      - bc
+      - jq
+      - libidn11
+      - rpm-build
+      - xmlstarlet
+      - glibc-i18ndata
+      - libcap-progs
+      - nfs-kernel-server
+      - libicu60_2
+
+  tasks:
+    - name: Refrescar repositorios (zypper refresh)
+      ansible.builtin.command: zypper --gpg-auto-import-keys refresh
+      register: refresh_out
+      changed_when: false
+
+    - name: Instalar paquetes (sin recommends)
+      community.general.zypper:
+        name: '{{ packages }}'
+        state: present
+        disable_recommends: true
+
+    - name: Verificar instalación (rpm -q)
+      ansible.builtin.command: 'rpm -q {{ item }}'
+      loop: '{{ packages }}'
+      register: rpm_check
+      changed_when: false
+      failed_when: false
+
+    - name: Mostrar faltantes
+      ansible.builtin.debug:
+        msg: '⚠️ NO instalado: {{ item.item }}'
+      loop: '{{ rpm_check.results }}'
+      when: item.rc != 0
